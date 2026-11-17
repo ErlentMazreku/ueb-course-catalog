@@ -1,0 +1,267 @@
+/* Ngjyrat dhe vlerat e përbashkëta */
+:root {
+    --primary: #1d4ed8;
+    --primary-dark: #1e3a8a;
+    --danger: #dc2626;
+    --danger-dark: #991b1b;
+    --success-bg: #dcfce7;
+    --success-text: #166534;
+    --error-bg: #fee2e2;
+    --error-text: #991b1b;
+    --text: #1f2937;
+    --muted: #6b7280;
+    --border: #d1d5db;
+    --bg: #f3f4f6;
+    --white: #ffffff;
+    --radius: 6px;
+}
+
+/* Bazat */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.5;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 24px 16px;
+}
+
+h1, h2 {
+    margin-top: 0;
+}
+
+a {
+    color: var(--primary);
+}
+
+/* Shiriti blu lart */
+.navbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 24px;
+    background: var(--primary);
+}
+
+.navbar a {
+    color: var(--white);
+    text-decoration: none;
+}
+
+.navbar .brand {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.navbar nav {
+    display: flex;
+    gap: 18px;
+}
+
+.navbar nav a:hover {
+    text-decoration: underline;
+}
+
+/* Pjesa e poshtme */
+.footer {
+    padding: 16px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+/* Tabelat */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--white);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+th, td {
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+th {
+    background: #e5e7eb;
+}
+
+tr:hover td {
+    background: #f9fafb;
+}
+
+/* Kolona me numra (çmimi, kapaciteti) */
+.num {
+    text-align: right;
+}
+
+/* Kolona me butona (ndrysho, fshij) */
+.actions {
+    white-space: nowrap;
+    text-align: right;
+}
+
+.actions form {
+    display: inline;
+}
+
+/* Karta (p.sh. për format) */
+.card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+}
+
+/* Forma me dy kolona */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* Fusha që zë të dy kolonat (p.sh. përshkrimi) */
+.form-group.full {
+    grid-column: 1 / -1;
+}
+
+label {
+    font-weight: 600;
+}
+
+input, select, textarea {
+    font: inherit;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--white);
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: 2px solid var(--primary);
+    outline-offset: 0;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* Fusha me gabim: kornizë e kuqe */
+.invalid {
+    border-color: var(--danger);
+}
+
+/* Teksti i gabimit pranë fushës */
+.error {
+    color: var(--danger);
+    font-size: 0.9rem;
+}
+
+/* Mesazhet flash */
+.alert {
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    border-radius: var(--radius);
+}
+
+.alert-success {
+    background: var(--success-bg);
+    color: var(--success-text);
+}
+
+.alert-error {
+    background: var(--error-bg);
+    color: var(--error-text);
+}
+
+/* Butonat */
+.btn {
+    display: inline-block;
+    padding: 8px 16px;
+    font: inherit;
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+}
+
+.btn-danger {
+    background: var(--danger);
+    color: var(--white);
+}
+
+.btn-danger:hover {
+    background: var(--danger-dark);
+}
+
+.btn-light {
+    background: var(--white);
+    color: var(--text);
+    border-color: var(--border);
+}
+
+.btn-light:hover {
+    background: #e5e7eb;
+}
+
+.btn-small {
+    padding: 4px 10px;
+    font-size: 0.85rem;
+}
+
+/* Faqja 404 */
+.error-page {
+    text-align: center;
+}
+
+.error-page h1 {
+    font-size: 4rem;
+    margin-bottom: 0;
+    color: var(--primary);
+}
+
+/* Telefoni: forma bëhet një kolonë */
+@media (max-width: 640px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .navbar {
+        padding: 12px 16px;
+    }
+
+    .card {
+        padding: 16px;
+    }
+}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<!-- Layout-i i përbashkët: çdo faqe i jep titullin dhe përmbajtjen e vet -->
+<html lang="sq" xmlns:th="http://www.thymeleaf.org" th:fragment="layout(title, content)">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:replace="${title}">Katalog kursesh</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<!-- Shiriti lart -->
+<header th:replace="~{fragments :: navbar}"></header>
+
+<div class="container">
+    <!-- Mesazhet e suksesit ose të gabimit -->
+    <div th:replace="~{fragments :: messages}"></div>
+
+    <!-- Përmbajtja e faqes -->
+    <main th:replace="${content}"></main>
+</div>
+
+<!-- Pjesa e poshtme -->
+<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

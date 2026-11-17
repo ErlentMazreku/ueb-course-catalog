@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<!-- Faqja kur një URL ose id nuk ekziston -->
+<html lang="sq" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::main})}">
+<head>
+    <title>Nuk u gjet</title>
+</head>
+<body>
+<main>
+    <div class="card error-page">
+        <h1>404</h1>
+        <h2>Nuk u gjet</h2>
+        <p>Faqja ose të dhëna që kërkuat nuk ekzistojnë ose janë fshirë.</p>
+        <a class="btn btn-primary" th:href="@{/courses}">Kthehu te kurset</a>
+    </div>
+</main>
+</body>
+</html>

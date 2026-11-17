@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<!-- Copat e përbashkëta që i përdor layout.html -->
+<html lang="sq" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Shiriti blu lart me emrin dhe lidhjet (login-i shtohet në pjesën 4) -->
+<header class="navbar" th:fragment="navbar">
+    <a class="brand" th:href="@{/courses}">Katalog kursesh</a>
+    <nav>
+        <a th:href="@{/courses}">Kurset</a>
+        <a th:href="@{/instructors}">Instruktorët</a>
+    </nav>
+</header>
+
+<!-- Mesazhet flash: shfaqen vetëm kur controller-i i ka dërguar -->
+<div th:fragment="messages">
+    <div class="alert alert-success" th:if="${successMessage}" th:text="${successMessage}">Sukses</div>
+    <div class="alert alert-error" th:if="${errorMessage}" th:text="${errorMessage}">Gabim</div>
+</div>
+
+<!-- Pjesa e poshtme e faqes -->
+<footer class="footer" th:fragment="footer">
+    <p>Katalog kursesh · Projekt për lëndën Ueb</p>
+</footer>
+
+</body>
+</html>
