@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!-- Lista e instruktorëve -->
+<html lang="sq" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::main})}">
+<head>
+    <title>Instruktorët</title>
+</head>
+<body>
+<main>
+    <h1>Instruktorët</h1>
+    <p><a class="btn btn-primary" th:href="@{/instructors/new}">Shto instruktor</a></p>
+
+    <!-- Kur nuk ka asnjë instruktor -->
+    <div class="card" th:if="${instructors.isEmpty()}">
+        <p>Nuk ka ende instruktorë. Klikoni "Shto instruktor" për të shtuar të parin.</p>
+    </div>
+
+    <table th:unless="${instructors.isEmpty()}">
+        <thead>
+        <tr>
+            <th>Emri</th>
+            <th>E-maili</th>
+            <th>Ekspertiza</th>
+            <th class="actions">Veprimet</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="instructor : ${instructors}">
+            <td th:text="${instructor.fullName}">Arta Krasniqi</td>
+            <td th:text="${instructor.email}">arta@example.com</td>
+            <!-- Ekspertiza është opsionale: kur mungon shfaqet "–" -->
+            <td th:text="${#strings.isEmpty(instructor.expertise)} ? '–' : ${instructor.expertise}">Java</td>
+            <td class="actions">
+                <a class="btn btn-light btn-small"
+                   th:href="@{/instructors/{id}/edit(id=${instructor.id})}">Ndrysho</a>
+                <!-- Fshirja bëhet me POST dhe kërkon konfirmim -->
+                <form method="post"
+                      th:action="@{/instructors/{id}/delete(id=${instructor.id})}"
+                      onsubmit="return confirm('A jeni i sigurt që doni ta fshini këtë instruktor?');">
+                    <button type="submit" class="btn btn-danger btn-small">Fshij</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>
