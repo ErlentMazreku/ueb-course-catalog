@@ -265,3 +265,14 @@ input:focus, select:focus, textarea:focus {
         padding: 16px;
     }
 }
+
+/* Emri dhe butoni i çkyçjes në navbar */
+.navbar nav {
+    align-items: center;
+    flex-wrap: wrap;
+    color: var(--white);
+}
+
+.navbar nav form {
+    margin: 0;
+}

@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <!-- Copat e përbashkëta që i përdor layout.html -->
-<html lang="sq" xmlns:th="http://www.thymeleaf.org">
+<html lang="sq" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 
-<!-- Shiriti blu lart me emrin dhe lidhjet (login-i shtohet në pjesën 4) -->
+<!-- Shiriti blu lart me emrin dhe lidhjet -->
 <header class="navbar" th:fragment="navbar">
     <a class="brand" th:href="@{/courses}">Katalog kursesh</a>
-    <nav>
+    <nav sec:authorize="isAuthenticated()">
         <a th:href="@{/courses}">Kurset</a>
         <a th:href="@{/instructors}">Instruktorët</a>
+        <span sec:authentication="name"></span>
+        <form method="post" th:action="@{/logout}">
+            <button type="submit" class="btn btn-light btn-small">Dil</button>
+        </form>
     </nav>
 </header>
 
