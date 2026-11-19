@@ -83,6 +83,12 @@ public class InstructorController {
     // Fshirja (vetëm me POST, nga butoni Fshij)
     @PostMapping("/{id}/delete")
     public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        // Instruktori me kurse mbetet; kurset do të mbeteshin pa instruktor
+        if (instructorService.hasCourses(id)) {
+            redirectAttributes.addFlashAttribute("errorMessage",
+                    "Ky instruktor ka kurse. Fshijini ose ndërroni instruktorin e tyre fillimisht.");
+            return "redirect:/instructors";
+        }
         instructorService.delete(id);
         redirectAttributes.addFlashAttribute("successMessage", "Instruktori u fshi me sukses.");
         return "redirect:/instructors";

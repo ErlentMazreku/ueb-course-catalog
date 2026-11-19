@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!-- Detajet e një kursi -->
+<html lang="sq" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::main})}">
+<head>
+    <title th:text="${course.title}">Kursi</title>
+</head>
+<body>
+<main>
+    <h1 th:text="${course.title}">Java për fillestarë</h1>
+
+    <div class="card">
+        <table>
+            <tbody>
+            <tr>
+                <th>Kategoria</th>
+                <td th:text="${course.category.displayName}">Programim</td>
+            </tr>
+            <tr>
+                <th>Instruktori</th>
+                <td th:text="${course.instructor.fullName}">Arta Krasniqi</td>
+            </tr>
+            <tr>
+                <th>Çmimi</th>
+                <td th:text="${#numbers.formatDecimal(course.price, 1, 'POINT', 2, 'COMMA')} + ' €'">120,00 €</td>
+            </tr>
+            <tr>
+                <th>Kapaciteti</th>
+                <td th:text="${course.capacity} + ' vende'">25 vende</td>
+            </tr>
+            <tr>
+                <th>Data e fillimit</th>
+                <td th:text="${#temporals.format(course.startDate, 'dd.MM.yyyy')}">01.12.2026</td>
+            </tr>
+            <tr>
+                <th>Data e mbarimit</th>
+                <td th:text="${#temporals.format(course.endDate, 'dd.MM.yyyy')}">28.02.2027</td>
+            </tr>
+            <tr>
+                <th>Përshkrimi</th>
+                <!-- Përshkrimi është opsional: kur mungon shfaqet "–" -->
+                <td th:text="${#strings.isEmpty(course.description)} ? '–' : ${course.description}">Përshkrimi</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="form-buttons">
+            <a class="btn btn-primary" th:href="@{/courses/{id}/edit(id=${course.id})}">Ndrysho</a>
+            <a class="btn btn-light" th:href="@{/courses}">Kthehu te kurset</a>
+        </div>
+    </div>
+</main>
+</body>
+</html>

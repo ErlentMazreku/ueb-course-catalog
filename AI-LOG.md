@@ -23,3 +23,10 @@
 - **Përgjigjja:** Claude Code tregoi planin, pastaj krijoi Instructor.java, InstructorRepository, InstructorService, InstructorController, instructors/list.html dhe instructors/form.html. Kontrolloi që projekti kompilohet me .\mvnw.cmd -q compile.
 - **Çka bëmë:** E pranuam planin. Krijuam branch-in pjesa-2-instruktoret. Para kodit rregulluam mjedisin: Docker Desktop, kontejneri katalog-db, .env me DB_PASSWORD të njëjtë me Docker-in, dhe JAVA_HOME te JDK 25. Fusha courses nuk u shtua; vjen në Pjesën 3. Kontrolli "instruktori ka kurse" para fshirjes shtohet po ashtu në Pjesën 3.
 - **Si e verifikuam:** E nisëm aplikacionin dhe provuam te /instructors: listën bosh, gabimet pranë fushave, ruajtjen me mesazhin e gjelbër, e-mailin e dyfishtë me shkronja të mëdha, ndryshimin pa rresht të ri, fshirjen dhe /instructors/999/edit që hap faqen 404.
+
+### 2026-11-19, Pjesa 3: kurset dhe relacioni me instruktorin, Hana
+
+- **Pyetja:** I dhashë Claude Code (aplikacioni desktop) detyrën e Pjesës 3, bashkë me SPEC.md, README.md dhe AI-LOG.md.
+- **Përgjigjja:** Claude Code tregoi planin, pastaj krijoi CourseCategory, Course, CourseRepository, CourseService, CourseController, HomeController, InstructorConverter, DataLoader, messages.properties dhe faqet courses/list.html, detail.html e form.html. Shtoi fushën courses te Instructor, kontrollin "instruktori ka kurse" para fshirjes dhe kolonën me numrin e kurseve te instructors/list.html. Kontrolloi që projekti kompilohet me .\mvnw.cmd -q compile.
+- **Çka bëmë:** E pranuam planin dhe punuam direkt në main, pa branch të ri. Për instruktorin në formë zgjodhëm një Converter të vogël (id -> Instructor) dhe th:selected që krahason id-të, që te ndryshimi instruktori aktual të dalë i zgjedhur. Validatori @ValidCourseSchedule nuk u shtua; mbetet për më vonë.
+- **Si e verifikuam:** <plotësohet pas provës>

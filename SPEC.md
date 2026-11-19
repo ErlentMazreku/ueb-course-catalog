@@ -96,8 +96,8 @@ Faza 1 e lëndës u nda në 4 pjesë, një për secilin anëtar, të bëra me ra
 | Pjesa | Anëtari        | Çka bën |
 |---|----------------|---|
 | 1 | Leuk           | projekti, Docker, .env.example, application.properties, layout.html, fragments.html, style.css, error/404.html, README.md, SPEC.md |
-| 2 | &lt;emri 2&gt; | Instructor: entiteti, repository, service, controller, instructors/list.html dhe form.html |
-| 3 | &lt;emri 3&gt; | Course: enum-i, entiteti, relacioni me Instructor, repository, service, controller, faqet e kurseve, HomeController, DataLoader |
+| 2 | Erlent         | Instructor: entiteti, repository, service, controller, instructors/list.html dhe form.html |
+| 3 | Hana           | Course: enum-i, entiteti, relacioni me Instructor, repository, service, controller, faqet e kurseve, HomeController, DataLoader |
 | 4 | &lt;emri 4&gt; | Spring Security: SecurityConfig, LoginController, login.html, logout; kontrolli përfundimtar i SPEC.md me kodin |
 
 ## 9. Jashtë fushës
