@@ -38,7 +38,7 @@ Hape `.env` dhe plotëso vlerat. `DB_PASSWORD` duhet të jetë i njëjti si `POS
 
 Nga terminali: `./mvnw spring-boot:run`
 
-Hyr te <http://localhost:8080/login> si `user` ose `admin`, me fjalëkalimet përkatëse nga `USER_PASSWORD` dhe `ADMIN_PASSWORD` në `.env`. Pas hyrjes hapet `/courses`. Në fazën 1, të dy përdoruesit mund të shtojnë, ndryshojnë dhe fshijnë kurse dhe instruktorë. Butoni "Dil" kryen çkyçjen.
+Hyr te <http://localhost:8080/login> si `user` ose `admin`, me fjalëkalimet përkatëse nga `USER_PASSWORD` dhe `ADMIN_PASSWORD` në `.env`. Pas hyrjes hapet `/courses`. Përdoruesi `user` mund t'i shohë kurset dhe instruktorët, por nuk mund t'i shtojë, ndryshojë ose fshijë. Këto veprime lejohen vetëm për `admin`; kufizimi zbatohet edhe kur provohet hyrja direkte në URL. Nëse përdoruesi i kyçur hap `/login`, ridrejtohet te faqja e fundit e vizituar; forma e hyrjes shfaqet pas çkyçjes. Butoni "Dil" kryen çkyçjen.
 
 ## 4. Gabimet më të shpeshta
 
@@ -62,7 +62,7 @@ Testet MVC përdorin fjalëkalime vetëm testuese dhe shërbime të simuluara; n
 2. Hap `/courses` pa login: duhet të kalojë te `/login`; CSS-i duhet të ngarkohet.
 3. Provo fjalëkalim gabim: duhet "Përdoruesi ose fjalëkalimi është gabim."
 4. Hyr si `user`: hapet `/courses`; navbar-i tregon `user` dhe "Dil".
-5. Si `user`, shto, ndrysho dhe fshij një kurs dhe një instruktor pa kurse: veprimet duhet të punojnë pa 403. Instruktori me kurse duhet të mbetet, me mesazhin përkatës.
+5. Si `user`, kontrollo që listat dhe detajet hapen, por kontrollet e ndryshimit nuk shfaqen. Provo drejtpërdrejt `/courses/new` ose dërgimin e një kërkese për ndryshim: qasja duhet të refuzohet (403). Si `admin`, shto, ndrysho dhe fshij një kurs dhe instruktor pa kurse. Instruktori me kurse duhet të mbetet, me mesazhin përkatës.
 6. Kliko "Dil": hapet `/login?logout` me "U çkyçët me sukses."; `/courses` kërkon përsëri login.
 7. Hyr si `admin` dhe provo të njëjtat veprime.
 8. I loguar, hap `/courses/999` nëse ky id nuk ekziston: duhet faqja 404.
