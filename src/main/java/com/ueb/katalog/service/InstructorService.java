@@ -1,6 +1,7 @@
 package com.ueb.katalog.service;
 
 import com.ueb.katalog.domain.Instructor;
+import com.ueb.katalog.repository.CourseRepository;
 import com.ueb.katalog.repository.InstructorRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -13,9 +14,11 @@ import java.util.List;
 public class InstructorService {
 
     private final InstructorRepository instructorRepository;
+    private final CourseRepository courseRepository;
 
-    public InstructorService(InstructorRepository instructorRepository) {
+    public InstructorService(InstructorRepository instructorRepository, CourseRepository courseRepository) {
         this.instructorRepository = instructorRepository;
+        this.courseRepository = courseRepository;
     }
 
     public List<Instructor> findAll() {
@@ -38,6 +41,11 @@ public class InstructorService {
             return instructorRepository.existsByEmailIgnoreCase(email);
         }
         return instructorRepository.existsByEmailIgnoreCaseAndIdNot(email, id);
+    }
+
+    // Instruktori që ka kurse nuk fshihet (SPEC pjesa 4)
+    public boolean hasCourses(Long id) {
+        return courseRepository.existsByInstructorId(id);
     }
 
     public void delete(Long id) {

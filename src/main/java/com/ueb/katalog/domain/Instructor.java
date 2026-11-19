@@ -5,9 +5,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+
+import java.util.ArrayList;
+import java.util.List;
 
 // Instruktori që jep kurse (tabela "instructor" në databazë)
 @Entity
@@ -38,6 +42,10 @@ public class Instructor {
     @Size(max = 100, message = "Ekspertiza mund të ketë së shumti 100 shkronja.")
     @Column(length = 100)
     private String expertise;
+
+    // Ana tjetër e relacionit: vetëm për lexim (p.sh. numri i kurseve në listë)
+    @OneToMany(mappedBy = "instructor")
+    private List<Course> courses = new ArrayList<>();
 
     // JPA kërkon një konstruktor pa parametra
     public Instructor() {
@@ -93,5 +101,9 @@ public class Instructor {
 
     public void setExpertise(String expertise) {
         this.expertise = expertise;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
     }
 }

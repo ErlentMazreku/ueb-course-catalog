@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<!-- Lista e kurseve -->
+<html lang="sq" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::main})}">
+<head>
+    <title>Kurset</title>
+</head>
+<body>
+<main>
+    <h1>Kurset</h1>
+    <p><a class="btn btn-primary" th:href="@{/courses/new}">Shto kurs</a></p>
+
+    <!-- Kur nuk ka asnjë kurs -->
+    <div class="card" th:if="${courses.isEmpty()}">
+        <p>Nuk ka ende kurse. Klikoni "Shto kurs" për të shtuar të parin.</p>
+    </div>
+
+    <table th:unless="${courses.isEmpty()}">
+        <thead>
+        <tr>
+            <th>Titulli</th>
+            <th>Kategoria</th>
+            <th>Instruktori</th>
+            <th class="num">Çmimi</th>
+            <th>Fillon</th>
+            <th>Mbaron</th>
+            <th class="actions">Veprimet</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="course : ${courses}">
+            <td><a th:href="@{/courses/{id}(id=${course.id})}" th:text="${course.title}">Java për fillestarë</a></td>
+            <td th:text="${course.category.displayName}">Programim</td>
+            <td th:text="${course.instructor.fullName}">Arta Krasniqi</td>
+            <td class="num" th:text="${#numbers.formatDecimal(course.price, 1, 'POINT', 2, 'COMMA')} + ' €'">120,00 €</td>
+            <td th:text="${#temporals.format(course.startDate, 'dd.MM.yyyy')}">01.12.2026</td>
+            <td th:text="${#temporals.format(course.endDate, 'dd.MM.yyyy')}">28.02.2027</td>
+            <td class="actions">
+                <a class="btn btn-light btn-small"
+                   th:href="@{/courses/{id}/edit(id=${course.id})}">Ndrysho</a>
+                <!-- Fshirja bëhet me POST dhe kërkon konfirmim -->
+                <form method="post"
+                      th:action="@{/courses/{id}/delete(id=${course.id})}"
+                      onsubmit="return confirm('A jeni i sigurt që doni ta fshini këtë kurs?');">
+                    <button type="submit" class="btn btn-danger btn-small">Fshij</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

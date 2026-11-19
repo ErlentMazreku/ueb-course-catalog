@@ -21,6 +21,7 @@
             <th>Emri</th>
             <th>E-maili</th>
             <th>Ekspertiza</th>
+            <th class="num">Kurset</th>
             <th class="actions">Veprimet</th>
         </tr>
         </thead>
@@ -30,6 +31,8 @@
             <td th:text="${instructor.email}">arta@example.com</td>
             <!-- Ekspertiza është opsionale: kur mungon shfaqet "–" -->
             <td th:text="${#strings.isEmpty(instructor.expertise)} ? '–' : ${instructor.expertise}">Java</td>
+            <!-- Numri i kurseve që jep instruktori -->
+            <td class="num" th:text="${instructor.courses.size()}">2</td>
             <td class="actions">
                 <a class="btn btn-light btn-small"
                    th:href="@{/instructors/{id}/edit(id=${instructor.id})}">Ndrysho</a>
