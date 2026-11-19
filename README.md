@@ -38,6 +38,8 @@ Hape `.env` dhe plotëso vlerat. `DB_PASSWORD` duhet të jetë i njëjti si `POS
 
 Nga terminali: `./mvnw spring-boot:run`
 
+Hyr te <http://localhost:8080/login> si `user` ose `admin`, me fjalëkalimet përkatëse nga `USER_PASSWORD` dhe `ADMIN_PASSWORD` në `.env`. Pas hyrjes hapet `/courses`. Në fazën 1, të dy përdoruesit mund të shtojnë, ndryshojnë dhe fshijnë kurse dhe instruktorë. Butoni "Dil" kryen çkyçjen.
+
 ## 4. Gabimet më të shpeshta
 
 | Gabimi | Shkaku | Zgjidhja |
@@ -45,6 +47,23 @@ Nga terminali: `./mvnw spring-boot:run`
 | `Connection to localhost:5433 refused` | Databaza nuk punon | `docker start katalog-db` |
 | `password authentication failed for user "katalog"` | `DB_PASSWORD` te `.env` nuk përputhet me Docker-in | Rregullo `.env`, ose fshij kontejnerin dhe volume-in dhe krijoji sërish |
 | `Could not resolve placeholder 'DB_PASSWORD'` | Mungon `.env`, ose aplikacioni nuk niset nga dosja e projektit | Krijo `.env` në root; në IntelliJ, Working directory = dosja e projektit |
+| `Could not resolve placeholder 'USER_PASSWORD'` | `USER_PASSWORD` mungon te `.env` | Plotëso `USER_PASSWORD` dhe `ADMIN_PASSWORD` te `.env` |
+| `403 Forbidden pas një forme` | Forma pa `th:action` nuk merr token-in CSRF nga Thymeleaf | Përdor `method="post"` dhe `th:action` në formë; mos e çaktivizo CSRF-in |
 | `Port 8080 was already in use` | Aplikacioni po punon tashmë | Ndale ekzekutimin tjetër (■ në IntelliJ) |
 | `release version 25 not supported` | IntelliJ ose Maven përdor JDK tjetër | Vendos JDK 25 te Project Structure dhe `JAVA_HOME` |
 | `container name "/katalog-db" is already in use` | Kontejneri ekziston nga më parë | Përdor `docker start katalog-db` në vend të `docker run` |
+
+## 5. Testet dhe kontrolli manual
+
+Me JDK 25 dhe `JAVA_HOME` përkatës, në Windows ekzekuto `.\mvnw.cmd -q test`; në Linux/macOS `./mvnw -q test`.
+Testet MVC përdorin fjalëkalime vetëm testuese dhe shërbime të simuluara; nuk lexojnë `.env` dhe nuk kërkojnë PostgreSQL. Ruajtja reale në databazë kontrollohet manualisht:
+
+1. Plotëso `DB_PASSWORD`, `USER_PASSWORD` dhe `ADMIN_PASSWORD` te `.env`, nis PostgreSQL dhe aplikacionin.
+2. Hap `/courses` pa login: duhet të kalojë te `/login`; CSS-i duhet të ngarkohet.
+3. Provo fjalëkalim gabim: duhet "Përdoruesi ose fjalëkalimi është gabim."
+4. Hyr si `user`: hapet `/courses`; navbar-i tregon `user` dhe "Dil".
+5. Si `user`, shto, ndrysho dhe fshij një kurs dhe një instruktor pa kurse: veprimet duhet të punojnë pa 403. Instruktori me kurse duhet të mbetet, me mesazhin përkatës.
+6. Kliko "Dil": hapet `/login?logout` me "U çkyçët me sukses."; `/courses` kërkon përsëri login.
+7. Hyr si `admin` dhe provo të njëjtat veprime.
+8. I loguar, hap `/courses/999` nëse ky id nuk ekziston: duhet faqja 404.
+9. Me `git status --short`, `git ls-files .env` dhe `git check-ignore .env`, kontrollo që `.env` mbetet i pagjurmuar dhe i përjashtuar nga Git.
