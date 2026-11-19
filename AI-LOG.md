@@ -7,7 +7,7 @@
 - **Pyetja:** I dhashë AI-së (Claude, në chat) udhëzimet e fazës 1 dhe i kërkova një plan në faza dhe një draft të SPEC.md për temën Katalog kursesh.
 - **Përgjigjja:** Plan në faza dhe draft i SPEC.md me Instructor 1 → N Course, URL-të, validimet dhe ndarjen e punës.
 - **Çka bëmë:** E pranuam planin dhe e vendosëm SPEC.md në root të projektit.
-- **Si e verifikuam:** <plotësohet pas rishikimit të SPEC.md me promptin e mësimdhënësit>
+- **Si e verifikuam:** Drafti u rishikua më 19.11 me promptin e mësimdhënësit dhe u përmirësua; shih hyrjen "Rishikimi i SPEC.md me promptin e mësimdhënësit" më poshtë.
 
 ### 2026-11-17, Pjesa 1: themeli i projektit, Leuk
 
@@ -36,7 +36,7 @@
 - **Pyetja:** I dhashë Codex detyrën e Pjesës 4, bashkë me SPEC.md, README.md dhe AI-LOG.md, duke kërkuar punë në faza dhe ndalim pas secilës fazë.
 - **Përgjigjja:** Codex paraqiti planin dhe, pas miratimit, shtoi varësitë e kërkuara, SecurityConfig, LoginController dhe login.html; integroi navbar-in me Thymeleaf Security dhe shtoi teste MVC për login, logout, qasjen dhe CSRF-in. Përditësoi dokumentimin dhe krahasoi kërkesat e SPEC.md me implementimin.
 - **Çka bëmë:** Punuam në pesë faza me miratim ndërmjet tyre. Përdoruesit user dhe admin mbetën in-memory, me fjalëkalime nga konfigurimi dhe PasswordEncoder; CSRF mbeti aktiv dhe çdo i loguar ka qasje të plotë në fazën 1. Testet përdorin vetëm vlera testuese, pa .env dhe pa PostgreSQL. Për ekzekutimin e testeve u përdor JDK 25 nga instalimi i IntelliJ. Te SPEC.md vendosëm Adonis për pjesën 4; kërkimi, REST-i, qasja sipas rolit dhe custom validator mbeten për fazën 2 të lëndës. Nuk ndryshuam kodin e pjesëve 2 dhe 3 gjatë auditimit.
-- **Si e verifikuam:** <plotësohet nga Adonis>
+- **Si e verifikuam:** E nisëm aplikacionin dhe provuam: /courses pa login ridrejton te /login, ku del faqja jonë "Hyr" (jo faqja e gatshme e Spring-ut); fjalëkalimi i gabuar kthen te /login?error; `admin` dhe `user` me fjalëkalimet nga .env hyjnë dhe hapet /courses; `admin` e hap /courses/new; butoni "Dil" (POST /logout me token-in CSRF) kthen te /login?logout dhe pas kësaj /courses kërkon sërish login. `./mvnw -q test` kaloi: 11 teste, 0 dështime.
 
 ### 2026-11-19, Kufizimi i qasjes sipas rolit, Adonis
 
@@ -51,3 +51,10 @@
 - **Përgjigjja:** U shtua ruajtja në sesion e faqes së fundit të vizituar dhe ridrejtimi nga `/login` për përdoruesit e kyçur. Përdoruesit e paautentikuar vazhdojnë të shohin formularin, përfshirë pas logout-it.
 - **Çka bëmë:** Përditësuam SecurityConfig, LoginController, testet MVC dhe udhëzimin në README.md.
 - **Si e verifikuam:** `.\mvnw.cmd -q clean test` me JDK 25 kaloi: 11 teste, 0 dështime.
+
+### 2026-11-19, Rishikimi i SPEC.md me promptin e mësimdhënësit, Leuk
+
+- **Pyetja:** I dhashë Claude Code (në terminalin e IntelliJ) udhëzimet e fazës 1 dhe i kërkova të kontrollonte projektin kundrejt tyre. Pastaj i kërkova rishikimin e SPEC.md me promptin nga pika 5 e udhëzimeve (së shumti 8 probleme, pa kod, në shqip).
+- **Përgjigjja:** Kontrolli gjeti që Docker Compose nuk përshkruhej te SPEC.md dhe që pjesa 6 nuk thoshte se validatori është për fazën 2. Rishikimi dha 8 probleme: (1) mungon faqja 403 me layout; (2) kufiri i 12 muajve është i paqartë; (3) nuk dihet a lejohet kursi një-ditor; (4) një mesazh i vetëm për dy rregulla; (5) e-maili kontrollohet pa dallim shkronjash në formë, por me dallim në databazë; (6) nuk thuhet çka kthen REST-i pa login; (7) përshkrimi e përmend kërkimin si të gatshëm; (8) tabela e Course nuk e përmend @ValidCourseSchedule.
+- **Çka bëmë:** Te SPEC.md shtuam paragrafin për Docker Compose (faza 2) në fund të pjesës 5, sepse shablloni nuk ka pjesë të veçantë për të, dhe shënimin "Faza 2" te pjesa 6. Pranuam problemet 1, 2, 3, 4, 6, 7 dhe 8: shtuam error/403.html dhe e përmendëm te pjesa 5; te pjesa 6 përcaktuam që kursi një-ditor lejohet, që 12 muaj përfshijnë ditën e fundit (me shembull) dhe që ka dy mesazhe; te pjesa 7 shkruam që /api/** pa login kthen 401; te pjesa 1 shtuam "(në fazën 2)" për kërkimin; te pjesa 3 shtuam rreshtin për @ValidCourseSchedule. Refuzuam problemin 5: forma e bllokon e-mailin e dyfishtë pa dallim shkronjash para se të arrijë në databazë, prandaj kufizimi unique mbetet vetëm mbrojtje shtesë.
+- **Si e verifikuam:** E nisëm aplikacionin, hymë si `user` dhe hapëm /courses/new: doli 403 me faqen tonë "Pa qasje", me navbar-in dhe butonin "Dil", ndërsa /courses u hap normalisht. `./mvnw -q test` kaloi: 11 teste, 0 dështime. E lexuam SPEC.md dhe kontrolluam që 9 pjesët janë ende në renditjen e saktë.

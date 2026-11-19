@@ -1,7 +1,7 @@
 # SPEC: Katalog kursesh
 
 ## 1. Përshkrimi
-Katalog kursesh është një aplikacion web ku një qendër trajnimi publikon kurset e veta dhe instruktorët që i japin. Përdoruesit shohin kurset dhe kërkojnë sipas titullit dhe kategorisë; administratori shton, ndryshon dhe fshin kurse dhe instruktorë.
+Katalog kursesh është një aplikacion web ku një qendër trajnimi publikon kurset e veta dhe instruktorët që i japin. Përdoruesit shohin kurset dhe (në fazën 2) kërkojnë sipas titullit dhe kategorisë; administratori shton, ndryshon dhe fshin kurse dhe instruktorë.
 
 ## 2. Rolet
 - **USER**: sheh listën e kurseve dhe të instruktorëve dhe hap detajet e kurseve. Nuk krijon, ndryshon ose fshin të dhëna.
@@ -33,6 +33,8 @@ Katalog kursesh është një aplikacion web ku një qendër trajnimi publikon ku
 | startDate | LocalDate | @NotNull |
 | endDate | LocalDate | @NotNull |
 | instructor | Instructor | @NotNull (zgjidhet nga lista) |
+
+Mbi klasën `Course` vendoset edhe `@ValidCourseSchedule` (faza 2), që kontrollon `startDate` dhe `endDate` bashkë; shih pjesën 6.
 
 CourseCategory: PROGRAMMING, DESIGN, BUSINESS, LANGUAGES, DATA. Në faqe shfaqen me emra shqip (Programim, Dizajn, Biznes, Gjuhë të huaja, Shkenca e të dhënave).
 
@@ -68,13 +70,24 @@ Instructor 1 → N Course: një instruktor jep shumë kurse, një kurs ka saktë
 | /courses?q=...&category=... | GET | lista e filtruar (faza 2) | USER, ADMIN |
 | /api/courses, /api/courses/{id} | GET | JSON (faza 2) | USER, ADMIN |
 
-Të gjitha faqet përdorin `layout.html` dhe `fragments.html`. Nëse një id nuk ekziston, shfaqet `error/404.html`.
+Të gjitha faqet përdorin `layout.html` dhe `fragments.html`. Nëse një id nuk ekziston, shfaqet `error/404.html`. Nëse USER-i hap një URL vetëm për ADMIN (p.sh. `/courses/new`), shfaqet `error/403.html`.
+
+Nisja me Docker Compose (faza 2):
+- Skedari `compose.yaml` në root të projektit ka shërbimin `db`: `postgres:17`, databaza dhe përdoruesi `katalog`, porti `5433:5432`, volume-i `katalog-data`.
+- Fjalëkalimi i databazës merret nga `DB_PASSWORD` te `.env`, njësoj si te aplikacioni; `compose.yaml` nuk ka fjalëkalime.
+- Databaza niset me `docker compose up -d` dhe ndalet me `docker compose down`, në vend të `docker run`. Aplikacioni niset si më parë, nga IntelliJ ose me `./mvnw spring-boot:run`.
 
 ## 6. Custom validator
+Faza 2: në fazën 1 validatori nuk është ende në kod; datat kontrollohen vetëm me `@NotNull`.
+
 - Emri: `@ValidCourseSchedule`, mbi klasën `Course`; logjika në `CourseScheduleValidator`.
-- Çka kontrollon: (1) `endDate` është pas `startDate`; (2) kursi nuk zgjat më shumë se 12 muaj.
+- Çka kontrollon:
+  1. `endDate` është e njëjta ditë ose pas `startDate`; kursi një-ditor lejohet.
+  2. Kursi zgjat së shumti 12 muaj: `endDate` nuk është pas `startDate` + 12 muaj. P.sh. 15.01.2026 → 15.01.2027 lejohet, 15.01.2026 → 16.01.2027 jo.
 - Nëse njëra datë mungon, validatori e lë kalimin; gabimin e jep `@NotNull`.
-- Mesazhi: "Data e mbarimit duhet të jetë pas datës së fillimit dhe kursi nuk mund të zgjasë më shumë se 12 muaj."
+- Mesazhet, një për secilin rregull:
+  1. "Data e mbarimit nuk mund të jetë para datës së fillimit."
+  2. "Kursi nuk mund të zgjasë më shumë se 12 muaj."
 - Gabimi shfaqet pranë fushës `endDate`.
 
 ## 7. Kërkimi dhe REST
@@ -88,6 +101,7 @@ REST:
 - `GET /api/courses/{id}` kthen një kurs, ose 404 nëse nuk ekziston.
 - Shembull: `{"id": 1, "title": "Java për fillestarë", "category": "PROGRAMMING", "price": 120.00, "capacity": 25, "startDate": "2026-12-01", "endDate": "2027-02-28", "instructorName": "Arta Krasniqi"}`
 - Kush e thërret: përdoruesit e loguar (USER, ADMIN), p.sh. nga shfletuesi pas login-it. Vetëm lexim.
+- Pa login: `/api/**` kthen `401 Unauthorized`, jo ridrejtim te faqja HTML `/login`.
 - JSON kthehet nga një `CourseDto`, jo nga vetë entiteti, që Instructor dhe Course të mos e thërrasin njëri-tjetrin pa fund.
 
 ## 8. Ndarja e punës

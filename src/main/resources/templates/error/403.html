@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<!-- Faqja kur përdoruesi nuk ka të drejtë për këtë URL (p.sh. USER te /courses/new) -->
+<html lang="sq" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::main})}">
+<head>
+    <title>Pa qasje</title>
+</head>
+<body>
+<main>
+    <div class="card error-page">
+        <h1>403</h1>
+        <h2>Pa qasje</h2>
+        <p>Nuk keni të drejtë për këtë faqe. Vetëm administratori mund të shtojë, ndryshojë ose fshijë të dhëna.</p>
+        <a class="btn btn-primary" th:href="@{/courses}">Kthehu te kurset</a>
+    </div>
+</main>
+</body>
+</html>
