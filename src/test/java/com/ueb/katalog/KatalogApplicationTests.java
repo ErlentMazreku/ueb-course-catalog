@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
@@ -29,11 +30,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 // Testet përdorin vetëm vlera testuese dhe nuk lidhen me databazën.
 @WebMvcTest(controllers = {LoginController.class, HomeController.class,
-        CourseController.class, InstructorController.class}, properties = {
-        "USER_PASSWORD=test-only-user-password",
-        "ADMIN_PASSWORD=test-only-admin-password",
-        "spring.config.import="
-})
+        CourseController.class, InstructorController.class},
+        properties = "spring.config.location=classpath:/application-mvc-test.properties")
 @Import(SecurityConfig.class)
 class KatalogApplicationTests {
 
@@ -117,6 +115,13 @@ class KatalogApplicationTests {
     }
 
     @Test
+    void anonymousLogoutRequiresLoginEvenWithCsrf() throws Exception {
+        mvc.perform(post("/logout").with(csrf()))
+                .andExpect(unauthenticated())
+                .andExpect(redirectedUrl("/login"));
+    }
+
+    @Test
     void logoutRequiresCsrfAndInvalidatesSession() throws Exception {
         MockHttpSession session = (MockHttpSession) mvc.perform(
                         formLogin().user("user").password("test-only-user-password"))
@@ -126,6 +131,7 @@ class KatalogApplicationTests {
         mvc.perform(post("/logout").session(session).with(csrf()))
                 .andExpect(unauthenticated())
                 .andExpect(redirectedUrl("/login?logout"));
+        assertTrue(session.isInvalid());
         mvc.perform(get("/courses"))
                 .andExpect(redirectedUrl("/login"));
     }
