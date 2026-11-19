@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <!-- Lista e instruktorëve -->
 <html lang="sq" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       th:replace="~{layout :: layout(~{::title}, ~{::main})}">
 <head>
     <title>Instruktorët</title>
@@ -8,7 +9,9 @@
 <body>
 <main>
     <h1>Instruktorët</h1>
-    <p><a class="btn btn-primary" th:href="@{/instructors/new}">Shto instruktor</a></p>
+    <p sec:authorize="hasRole('ADMIN')">
+        <a class="btn btn-primary" th:href="@{/instructors/new}">Shto instruktor</a>
+    </p>
 
     <!-- Kur nuk ka asnjë instruktor -->
     <div class="card" th:if="${instructors.isEmpty()}">
@@ -22,7 +25,7 @@
             <th>E-maili</th>
             <th>Ekspertiza</th>
             <th class="num">Kurset</th>
-            <th class="actions">Veprimet</th>
+            <th class="actions" sec:authorize="hasRole('ADMIN')">Veprimet</th>
         </tr>
         </thead>
         <tbody>
@@ -33,7 +36,7 @@
             <td th:text="${#strings.isEmpty(instructor.expertise)} ? '–' : ${instructor.expertise}">Java</td>
             <!-- Numri i kurseve që jep instruktori -->
             <td class="num" th:text="${instructor.courses.size()}">2</td>
-            <td class="actions">
+            <td class="actions" sec:authorize="hasRole('ADMIN')">
                 <a class="btn btn-light btn-small"
                    th:href="@{/instructors/{id}/edit(id=${instructor.id})}">Ndrysho</a>
                 <!-- Fshirja bëhet me POST dhe kërkon konfirmim -->

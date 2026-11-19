@@ -37,3 +37,17 @@
 - **Përgjigjja:** Codex paraqiti planin dhe, pas miratimit, shtoi varësitë e kërkuara, SecurityConfig, LoginController dhe login.html; integroi navbar-in me Thymeleaf Security dhe shtoi teste MVC për login, logout, qasjen dhe CSRF-in. Përditësoi dokumentimin dhe krahasoi kërkesat e SPEC.md me implementimin.
 - **Çka bëmë:** Punuam në pesë faza me miratim ndërmjet tyre. Përdoruesit user dhe admin mbetën in-memory, me fjalëkalime nga konfigurimi dhe PasswordEncoder; CSRF mbeti aktiv dhe çdo i loguar ka qasje të plotë në fazën 1. Testet përdorin vetëm vlera testuese, pa .env dhe pa PostgreSQL. Për ekzekutimin e testeve u përdor JDK 25 nga instalimi i IntelliJ. Te SPEC.md vendosëm Adonis për pjesën 4; kërkimi, REST-i, qasja sipas rolit dhe custom validator mbeten për fazën 2 të lëndës. Nuk ndryshuam kodin e pjesëve 2 dhe 3 gjatë auditimit.
 - **Si e verifikuam:** <plotësohet nga Adonis>
+
+### 2026-11-19, Kufizimi i qasjes sipas rolit, Adonis
+
+- **Pyetja:** Kërkova që përdoruesi `user` të mund t'i shohë kurset dhe instruktorët, por vetëm `admin` të mund t'i krijojë, ndryshojë ose fshijë.
+- **Përgjigjja:** U shtuan kufizimet sipas rolit në Spring Security, u fshehën kontrollet e menaxhimit për USER-in dhe u përditësuan SPEC.md dhe README.md.
+- **Çka bëmë:** USER ka qasje vetëm për lexim; kërkesat direkte për format dhe veprimet e ndryshimit refuzohen. ADMIN ruan qasjen e plotë. CSRF mbeti aktiv.
+- **Si e verifikuam:** `.\mvnw.cmd -q clean test` me JDK 25 kaloi: 9 teste, 0 dështime. Testet mbulojnë listat/detajet dhe kontrollet e fshehura për USER-in, bllokimin e kërkesave të tij, si dhe format dhe veprimet e ADMIN-it.
+
+### 2026-11-19, Ridrejtimi i përdoruesit të kyçur nga /login, Adonis
+
+- **Pyetja:** Kërkova që përdoruesi i kyçur të mos qëndrojë te `/login`, por të kthehet te faqja që po shikonte; faqja e login-it të shfaqet pas çkyçjes.
+- **Përgjigjja:** U shtua ruajtja në sesion e faqes së fundit të vizituar dhe ridrejtimi nga `/login` për përdoruesit e kyçur. Përdoruesit e paautentikuar vazhdojnë të shohin formularin, përfshirë pas logout-it.
+- **Çka bëmë:** Përditësuam SecurityConfig, LoginController, testet MVC dhe udhëzimin në README.md.
+- **Si e verifikuam:** `.\mvnw.cmd -q clean test` me JDK 25 kaloi: 11 teste, 0 dështime.

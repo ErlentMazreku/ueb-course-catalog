@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <!-- Lista e kurseve -->
 <html lang="sq" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       th:replace="~{layout :: layout(~{::title}, ~{::main})}">
 <head>
     <title>Kurset</title>
@@ -8,7 +9,9 @@
 <body>
 <main>
     <h1>Kurset</h1>
-    <p><a class="btn btn-primary" th:href="@{/courses/new}">Shto kurs</a></p>
+    <p sec:authorize="hasRole('ADMIN')">
+        <a class="btn btn-primary" th:href="@{/courses/new}">Shto kurs</a>
+    </p>
 
     <!-- Kur nuk ka asnjë kurs -->
     <div class="card" th:if="${courses.isEmpty()}">
@@ -24,7 +27,7 @@
             <th class="num">Çmimi</th>
             <th>Fillon</th>
             <th>Mbaron</th>
-            <th class="actions">Veprimet</th>
+            <th class="actions" sec:authorize="hasRole('ADMIN')">Veprimet</th>
         </tr>
         </thead>
         <tbody>
@@ -35,7 +38,7 @@
             <td class="num" th:text="${#numbers.formatDecimal(course.price, 1, 'POINT', 2, 'COMMA')} + ' €'">120,00 €</td>
             <td th:text="${#temporals.format(course.startDate, 'dd.MM.yyyy')}">01.12.2026</td>
             <td th:text="${#temporals.format(course.endDate, 'dd.MM.yyyy')}">28.02.2027</td>
-            <td class="actions">
+            <td class="actions" sec:authorize="hasRole('ADMIN')">
                 <a class="btn btn-light btn-small"
                    th:href="@{/courses/{id}/edit(id=${course.id})}">Ndrysho</a>
                 <!-- Fshirja bëhet me POST dhe kërkon konfirmim -->

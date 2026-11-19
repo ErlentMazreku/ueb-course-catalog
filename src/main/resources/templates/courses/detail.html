@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <!-- Detajet e një kursi -->
 <html lang="sq" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       th:replace="~{layout :: layout(~{::title}, ~{::main})}">
 <head>
     <title th:text="${course.title}">Kursi</title>
@@ -45,7 +46,8 @@
         </table>
 
         <div class="form-buttons">
-            <a class="btn btn-primary" th:href="@{/courses/{id}/edit(id=${course.id})}">Ndrysho</a>
+            <a class="btn btn-primary" sec:authorize="hasRole('ADMIN')"
+               th:href="@{/courses/{id}/edit(id=${course.id})}">Ndrysho</a>
             <a class="btn btn-light" th:href="@{/courses}">Kthehu te kurset</a>
         </div>
     </div>
