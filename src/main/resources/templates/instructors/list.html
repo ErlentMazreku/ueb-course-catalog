@@ -8,17 +8,18 @@
 </head>
 <body>
 <main>
-    <h1>Instruktorët</h1>
-    <p sec:authorize="hasRole('ADMIN')">
-        <a class="btn btn-primary" th:href="@{/instructors/new}">Shto instruktor</a>
-    </p>
+    <div class="page-header">
+        <h1>Instruktorët</h1>
+        <a class="btn btn-primary" sec:authorize="hasRole('ADMIN')" th:href="@{/instructors/new}">Shto instruktor</a>
+    </div>
 
     <!-- Kur nuk ka asnjë instruktor -->
-    <div class="card" th:if="${instructors.isEmpty()}">
+    <div class="card empty" th:if="${instructors.isEmpty()}">
         <p>Nuk ka ende instruktorë. Klikoni "Shto instruktor" për të shtuar të parin.</p>
     </div>
 
-    <table th:unless="${instructors.isEmpty()}">
+    <div class="table-wrap" th:unless="${instructors.isEmpty()}">
+    <table>
         <thead>
         <tr>
             <th>Emri</th>
@@ -49,6 +50,7 @@
         </tr>
         </tbody>
     </table>
+    </div>
 </main>
 </body>
 </html>

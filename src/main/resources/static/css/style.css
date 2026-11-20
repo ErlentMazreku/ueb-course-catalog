@@ -2,6 +2,7 @@
 :root {
     --primary: #1d4ed8;
     --primary-dark: #1e3a8a;
+    --primary-soft: #dbeafe;
     --danger: #dc2626;
     --danger-dark: #991b1b;
     --success-bg: #dcfce7;
@@ -10,10 +11,12 @@
     --error-text: #991b1b;
     --text: #1f2937;
     --muted: #6b7280;
-    --border: #d1d5db;
+    --border: #e5e7eb;
+    --border-strong: #d1d5db;
     --bg: #f3f4f6;
     --white: #ffffff;
-    --radius: 6px;
+    --radius: 8px;
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
 /* Bazat */
@@ -23,35 +26,55 @@
 
 body {
     margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
     color: var(--text);
     background: var(--bg);
     line-height: 1.5;
 }
 
+/* Përmbajtja zë hapësirën e lirë, që footer-i të qëndrojë poshtë */
 .container {
-    max-width: 1000px;
+    flex: 1;
+    width: 100%;
+    max-width: 1040px;
     margin: 0 auto;
-    padding: 24px 16px;
+    padding: 32px 16px;
 }
 
 h1, h2 {
     margin-top: 0;
+    line-height: 1.25;
+}
+
+h1 {
+    font-size: 1.75rem;
+    margin-bottom: 20px;
 }
 
 a {
     color: var(--primary);
 }
 
-/* Shiriti blu lart */
+a:hover {
+    color: var(--primary-dark);
+}
+
+/* Shiriti blu lart: qëndron i dukshëm kur lëviz faqen */
 .navbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    padding: 14px 24px;
+    padding: 12px 24px;
     background: var(--primary);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .navbar a {
@@ -61,16 +84,39 @@ a {
 
 .navbar .brand {
     font-size: 1.2rem;
-    font-weight: bold;
+    font-weight: 700;
+    letter-spacing: 0.2px;
 }
 
 .navbar nav {
     display: flex;
-    gap: 18px;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    color: var(--white);
+}
+
+.navbar nav a {
+    padding: 6px 12px;
+    border-radius: var(--radius);
+    transition: background 0.15s;
 }
 
 .navbar nav a:hover {
-    text-decoration: underline;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.navbar nav form {
+    margin: 0;
+}
+
+/* Emri i përdoruesit të kyçur */
+.user-name {
+    margin: 0 6px 0 10px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.15);
+    font-size: 0.9rem;
 }
 
 /* Pjesa e poshtme */
@@ -79,34 +125,79 @@ a {
     text-align: center;
     color: var(--muted);
     font-size: 0.9rem;
+    border-top: 1px solid var(--border);
 }
 
-/* Tabelat */
+.footer p {
+    margin: 0;
+}
+
+/* Titulli i faqes me butonin "Shto" në të djathtë */
+.page-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.page-header h1 {
+    margin: 0;
+}
+
+/* Tabelat: mbështjellësi lejon lëvizje horizontale në telefon */
+.table-wrap {
+    overflow-x: auto;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
     background: var(--white);
-    border-radius: var(--radius);
-    overflow: hidden;
 }
 
 th, td {
-    padding: 10px 12px;
+    padding: 12px 14px;
     text-align: left;
     border-bottom: 1px solid var(--border);
 }
 
-th {
-    background: #e5e7eb;
+thead th {
+    background: #f9fafb;
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
 }
 
-tr:hover td {
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+tbody tr:hover td {
     background: #f9fafb;
+}
+
+td a {
+    font-weight: 600;
+    text-decoration: none;
+}
+
+td a:hover {
+    text-decoration: underline;
 }
 
 /* Kolona me numra (çmimi, kapaciteti) */
 .num {
     text-align: right;
+    font-variant-numeric: tabular-nums;
 }
 
 /* Kolona me butona (ndrysho, fshij) */
@@ -119,25 +210,88 @@ tr:hover td {
     display: inline;
 }
 
+.actions .btn + form {
+    margin-left: 4px;
+}
+
+/* Tabela e detajeve: emri i fushës majtas, vlera djathtas */
+.details th {
+    width: 200px;
+    color: var(--muted);
+    font-weight: 600;
+    background: transparent;
+    vertical-align: top;
+}
+
+.details tr:hover td {
+    background: transparent;
+}
+
+.details td {
+    white-space: pre-line;
+}
+
+/* Etiketa e vogël (p.sh. kategoria) */
+.badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: var(--primary-soft);
+    color: var(--primary-dark);
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
 /* Karta (p.sh. për format) */
 .card {
     background: var(--white);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 24px;
+    box-shadow: var(--shadow);
+    padding: 28px;
+}
+
+.card > p:first-child {
+    margin-top: 0;
+}
+
+.card > p:last-child {
+    margin-bottom: 0;
+}
+
+/* Gjendja bosh: kur nuk ka të dhëna */
+.empty {
+    text-align: center;
+    color: var(--muted);
+    padding: 40px 24px;
+}
+
+/* Faqja e hyrjes: kartë e ngushtë në mes */
+.auth {
+    max-width: 400px;
+    margin: 32px auto 0;
+}
+
+.auth h1 {
+    text-align: center;
+}
+
+.auth .btn-primary {
+    width: 100%;
 }
 
 /* Forma me dy kolona */
 .form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px 20px;
+    gap: 18px 20px;
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
 }
 
 /* Fusha që zë të dy kolonat (p.sh. përshkrimi) */
@@ -147,36 +301,51 @@ tr:hover td {
 
 label {
     font-weight: 600;
+    font-size: 0.95rem;
 }
 
 input, select, textarea {
     font: inherit;
-    padding: 8px 10px;
-    border: 1px solid var(--border);
+    padding: 9px 12px;
+    border: 1px solid var(--border-strong);
     border-radius: var(--radius);
     background: var(--white);
+    color: var(--text);
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+textarea {
+    resize: vertical;
 }
 
 input:focus, select:focus, textarea:focus {
-    outline: 2px solid var(--primary);
-    outline-offset: 0;
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-soft);
 }
 
 .form-buttons {
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
-    margin-top: 20px;
+    margin-top: 24px;
 }
 
 /* Fusha me gabim: kornizë e kuqe */
 .invalid {
     border-color: var(--danger);
+    background: #fffafa;
+}
+
+.invalid:focus {
+    border-color: var(--danger);
+    box-shadow: 0 0 0 3px var(--error-bg);
 }
 
 /* Teksti i gabimit pranë fushës */
 .error {
     color: var(--danger);
-    font-size: 0.9rem;
+    font-size: 0.875rem;
 }
 
 /* Mesazhet flash */
@@ -184,6 +353,7 @@ input:focus, select:focus, textarea:focus {
     padding: 12px 16px;
     margin-bottom: 20px;
     border-radius: var(--radius);
+    border-left: 4px solid currentColor;
 }
 
 .alert-success {
@@ -199,12 +369,21 @@ input:focus, select:focus, textarea:focus {
 /* Butonat */
 .btn {
     display: inline-block;
-    padding: 8px 16px;
+    padding: 9px 18px;
     font: inherit;
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: center;
     border: 1px solid transparent;
     border-radius: var(--radius);
     cursor: pointer;
     text-decoration: none;
+    transition: background 0.15s, border-color 0.15s;
+}
+
+.btn:focus-visible {
+    outline: 3px solid var(--primary-soft);
+    outline-offset: 1px;
 }
 
 .btn-primary {
@@ -214,65 +393,78 @@ input:focus, select:focus, textarea:focus {
 
 .btn-primary:hover {
     background: var(--primary-dark);
-}
-
-.btn-danger {
-    background: var(--danger);
     color: var(--white);
 }
 
+.btn-danger {
+    background: var(--white);
+    color: var(--danger);
+    border-color: #fecaca;
+}
+
 .btn-danger:hover {
-    background: var(--danger-dark);
+    background: var(--danger);
+    color: var(--white);
+    border-color: var(--danger);
 }
 
 .btn-light {
     background: var(--white);
     color: var(--text);
-    border-color: var(--border);
+    border-color: var(--border-strong);
 }
 
 .btn-light:hover {
-    background: #e5e7eb;
+    background: #f3f4f6;
+    color: var(--text);
 }
 
 .btn-small {
-    padding: 4px 10px;
+    padding: 5px 12px;
     font-size: 0.85rem;
 }
 
-/* Faqja 404 */
+/* Faqet e gabimit (403, 404) */
 .error-page {
+    max-width: 520px;
+    margin: 24px auto 0;
     text-align: center;
 }
 
 .error-page h1 {
-    font-size: 4rem;
+    font-size: 4.5rem;
     margin-bottom: 0;
     color: var(--primary);
 }
 
+.error-page p {
+    color: var(--muted);
+    margin-bottom: 24px;
+}
+
 /* Telefoni: forma bëhet një kolonë */
 @media (max-width: 640px) {
+    .container {
+        padding: 20px 16px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
     .form-grid {
         grid-template-columns: 1fr;
     }
 
     .navbar {
-        padding: 12px 16px;
+        padding: 10px 16px;
     }
 
     .card {
-        padding: 16px;
+        padding: 18px;
     }
-}
 
-/* Emri dhe butoni i çkyçjes në navbar */
-.navbar nav {
-    align-items: center;
-    flex-wrap: wrap;
-    color: var(--white);
-}
-
-.navbar nav form {
-    margin: 0;
+    .details th {
+        width: 40%;
+    }
 }

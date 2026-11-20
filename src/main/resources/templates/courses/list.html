@@ -8,17 +8,18 @@
 </head>
 <body>
 <main>
-    <h1>Kurset</h1>
-    <p sec:authorize="hasRole('ADMIN')">
-        <a class="btn btn-primary" th:href="@{/courses/new}">Shto kurs</a>
-    </p>
+    <div class="page-header">
+        <h1>Kurset</h1>
+        <a class="btn btn-primary" sec:authorize="hasRole('ADMIN')" th:href="@{/courses/new}">Shto kurs</a>
+    </div>
 
     <!-- Kur nuk ka asnjë kurs -->
-    <div class="card" th:if="${courses.isEmpty()}">
+    <div class="card empty" th:if="${courses.isEmpty()}">
         <p>Nuk ka ende kurse. Klikoni "Shto kurs" për të shtuar të parin.</p>
     </div>
 
-    <table th:unless="${courses.isEmpty()}">
+    <div class="table-wrap" th:unless="${courses.isEmpty()}">
+    <table>
         <thead>
         <tr>
             <th>Titulli</th>
@@ -33,7 +34,7 @@
         <tbody>
         <tr th:each="course : ${courses}">
             <td><a th:href="@{/courses/{id}(id=${course.id})}" th:text="${course.title}">Java për fillestarë</a></td>
-            <td th:text="${course.category.displayName}">Programim</td>
+            <td><span class="badge" th:text="${course.category.displayName}">Programim</span></td>
             <td th:text="${course.instructor.fullName}">Arta Krasniqi</td>
             <td class="num" th:text="${#numbers.formatDecimal(course.price, 1, 'POINT', 2, 'COMMA')} + ' €'">120,00 €</td>
             <td th:text="${#temporals.format(course.startDate, 'dd.MM.yyyy')}">01.12.2026</td>
@@ -51,6 +52,7 @@
         </tr>
         </tbody>
     </table>
+    </div>
 </main>
 </body>
 </html>
