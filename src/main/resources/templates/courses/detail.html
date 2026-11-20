@@ -11,11 +11,11 @@
     <h1 th:text="${course.title}">Java për fillestarë</h1>
 
     <div class="card">
-        <table>
+        <table class="details">
             <tbody>
             <tr>
                 <th>Kategoria</th>
-                <td th:text="${course.category.displayName}">Programim</td>
+                <td><span class="badge" th:text="${course.category.displayName}">Programim</span></td>
             </tr>
             <tr>
                 <th>Instruktori</th>

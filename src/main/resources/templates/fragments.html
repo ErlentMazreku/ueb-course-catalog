@@ -10,7 +10,7 @@
     <nav sec:authorize="isAuthenticated()">
         <a th:href="@{/courses}">Kurset</a>
         <a th:href="@{/instructors}">Instruktorët</a>
-        <span sec:authentication="name"></span>
+        <span class="user-name" sec:authentication="name"></span>
         <form method="post" th:action="@{/logout}">
             <button type="submit" class="btn btn-light btn-small">Dil</button>
         </form>
