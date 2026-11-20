@@ -61,7 +61,7 @@
 
 ### 2026-11-20, Përmirësimi i pamjes (UI), Leuk
 
-- **Pyetja:** I kërkova Claude Code (në terminalin e IntelliJ) ta përmirësonte pamjen e aplikacionit pa e prekur logjikën, në një branch të ri dhe pa push.
+- **Pyetja:** I kërkova Claude Code (në terminalin e IntelliJ) ta përmirësonte pamjen e aplikacionit pa e prekur logjikën, në një branch të ri dhe pa push. Më vonë i kërkova ta riemërtonte branch-in në ui-update, ta bënte commit me mesazhin "UI-Update", push dhe PR.
 - **Përgjigjja:** Claude Code e rishkroi style.css duke i mbajtur ngjyrat dhe emrat e klasave: navbar që qëndron lart, emri i përdoruesit si etiketë, titulli dhe butoni "Shto" në një rresht, tabela në kartë me hije dhe me lëvizje horizontale në telefon, kategoria si etiketë me ngjyrë, fokus më i qartë te fushat, butoni "Fshij" më i qetë derisa kalon miu sipër, faqja e hyrjes si kartë e ngushtë në mes dhe footer-i gjithmonë poshtë. Në HTML shtoi vetëm klasa dhe mbështjellës (page-header, table-wrap, badge, details, auth, user-name).
-- **Çka bëmë:** Punuam në branch-in ui-permiresime nga main i përditësuar. Nuk u prekën controller-at, entitetet dhe tekstet që i kontrollojnë testet.
+- **Çka bëmë:** Punuam në branch-in ui-permiresime nga main i përditësuar, pastaj e riemërtuam në ui-update, bëmë commit "UI-Update" dhe hapëm PR #8 drejt main. Nuk u prekën controller-at, entitetet dhe tekstet që i kontrollojnë testet.
 - **Si e verifikuam:** `./mvnw -q test` kaloi: 11 teste, 0 dështime. Testimi në shfletues si `user` dhe `admin` bëhet nga Leuk.
