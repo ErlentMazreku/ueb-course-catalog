@@ -1,6 +1,6 @@
 # Katalog kursesh
 
-Aplikacion web për lëndën Ueb: një qendër trajnimi publikon kurset dhe instruktorët e vet.
+Aplikacion web për lëndën Zhvillim i Web-it (Prof. Jon Kursani): një qendër trajnimi publikon kurset dhe instruktorët e vet.
 Teknologjitë: Java 25, Spring Boot 4.1.2, Spring MVC + Thymeleaf, Spring Data JPA, PostgreSQL në Docker.
 Përshkrimi i plotë është te [SPEC.md](SPEC.md).
 
